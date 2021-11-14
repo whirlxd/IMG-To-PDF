@@ -1,0 +1,18 @@
+/* ./src/index.css */
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 10;
+  padding: 10;
+}
+body {
+  font-family: "Ubuntu", sans-serif !important;
+  background-color: #2a2e38;
+}
+button {
+  text-align: center;
+}
