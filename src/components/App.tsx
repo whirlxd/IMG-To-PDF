@@ -7,7 +7,7 @@ import {
 } from "react";
 import { CustomImage } from "../types/custom-image";
 import getImageUrl from "../utils/getImageUrl";
-import GithubCorner from "react-github-corner";
+
 import "../css/App.css";
 //@ts-ignore:next-line cuz pkg gae
 import swal from "sweetalert2/dist/sweetalert2.all.min.js";
@@ -105,11 +105,6 @@ const App: FC = () => {
 
   return (
     <div>
-      <GithubCorner
-        href="https://whirl.codes"
-        bannerColor="#FFFFFF"
-        octoColor="#2a2e38"
-      />
       {uploadedImages.length >= 1 ? (
         <h1 className="text-3xl font-bold text-center text-white md:text-4xl">
           Images Uploaded:
