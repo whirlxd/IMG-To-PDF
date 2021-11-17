@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" oncontextmenu="return false">
   <head>
     <meta charset="UTF-8" />
     <!-- Primary Meta Tags -->
@@ -173,7 +173,7 @@
     />
   </head>
   <body>
-    <!-- stop those bastards from opening dev tools cuz it's my choice  -->
+    <!-- stop those bastards from opening dev tools cuz it's my choice , excludes ctrl shift 'c' cuz um idk lol  -->
     <script>
       document.onkeydown = function (e) {
         if (e.keyCode == 123) {
@@ -182,9 +182,7 @@
         if (e.ctrlKey && e.shiftKey && e.keyCode == "I".charCodeAt(0)) {
           return false;
         }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == "C".charCodeAt(0)) {
-          return false;
-        }
+       
         if (e.ctrlKey && e.shiftKey && e.keyCode == "J".charCodeAt(0)) {
           return false;
         }

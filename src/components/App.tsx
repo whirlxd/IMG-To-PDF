@@ -195,6 +195,6 @@ const App: FC = () => {
  * Work on generating the pdf => ✔️
  * Work on downloading and previewing the pdf => ✔️
  * Work on the Visual Styles ( CSS ) => ✔️
- * Work on the PWA[android & ios version] => ❌
+ * Work on the PWA[android & ios version] => ✔️
  */
 export default App;
