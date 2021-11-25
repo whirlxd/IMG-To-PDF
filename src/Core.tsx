@@ -1,35 +1,45 @@
 import { useState, useEffect } from "react";
-import { App, Loader } from "./components";
+import { App, Loader, Home, Footer, Stats } from "./components";
 import GithubCorner from "react-github-corner";
 
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+
 export default function core() {
-  const [loaded, setLoaded] = useState<Boolean>(false);
-  useEffect(() => {
-    setTimeout(() => {
-      setLoaded(true);
-    }, 2000);
-  }, []);
   return (
     <>
-      {loaded ? (
-        <>
-          <GithubCorner
-            href="https://github.com/whirl21/img-to-pdf"
-            bannerColor="#FFFFFF"
-            octoColor="#2a2e38"
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <GithubCorner />
+                <Home /> <Stats />
+                <Footer />
+              </>
+            }
           />
-          <App />
-        </>
-      ) : (
-        <>
-          <GithubCorner
-            href="https://github.com/whirl21/img-to-pdf"
-            bannerColor="#FFFFFF"
-            octoColor="#2a2e38"
+          <Route
+            path="/app"
+            element={
+              <>
+                <GithubCorner />
+                <App />
+              </>
+            }
           />
-          <Loader />
-        </>
-      )}
+          <Route
+            path="*"
+            element={
+              <>
+                <GithubCorner />
+                <Home /> <Stats />
+                <Footer />
+              </>
+            }
+          />
+        </Routes>
+      </Router>
     </>
   );
 }

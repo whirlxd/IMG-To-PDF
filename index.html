@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" oncontextmenu="return false;">
   <head>
     <meta charset="UTF-8" />
     <!-- Primary Meta Tags -->
@@ -9,7 +9,8 @@
       name="description"
       content="IMG To PDF app ( iTp for short ) is an application which helps you generate pdf's from images without any other bullshit."
     />
-    <!-- linking my manifest even tho it's already done -->
+    <link rel="icon" href="/manifest-icon-192.png" />
+    <!-- Manifest -->
     <link rel="manifest" href="/manifest.json" />
     <link rel="manifest" href="/manifest.webmanifest" />
 
@@ -36,7 +37,8 @@
     <link rel="mask-icon" href="/favicon.svg" color="#FFFFFF" />
     <meta name="theme-color" content="#2a2e38" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- apple stuff -->
+
+    <!-- Apple -->
     <link rel="apple-touch-icon" href="/apple-icon-180.png" />
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -172,27 +174,8 @@
       media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
     />
   </head>
-  <body>
-    <!-- stop those bastards from opening dev tools cuz it's my choice  -->
-    <script>
-      document.onkeydown = function (e) {
-        if (e.keyCode == 123) {
-          return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == "I".charCodeAt(0)) {
-          return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == "C".charCodeAt(0)) {
-          return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == "J".charCodeAt(0)) {
-          return false;
-        }
-        if (e.ctrlKey && e.keyCode == "U".charCodeAt(0)) {
-          return false;
-        }
-      };
-    </script>
+  <!-- Body color styled with tailwind -->
+  <body class="bg-deep-purple-accent-700">
     <div id="application"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

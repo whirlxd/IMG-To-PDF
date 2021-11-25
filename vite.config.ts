@@ -8,7 +8,6 @@ import reactRefresh from "@vitejs/plugin-react-refresh";
 export default defineConfig({
   plugins: [
     react(),
-    reactRefresh(),
     VitePWA({
       includeAssets: [
         "favicon.svg",
@@ -31,17 +30,11 @@ export default defineConfig({
             sizes: "512x512",
             type: "image/png",
           },
-          {
-            src: "/android-chrome-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "any maskable",
-          },
         ],
         theme_color: "#2a2e38",
         background_color: "#2a2e38",
         display: "standalone",
-        start_url: "/",
+        start_url: "/app",
         lang: "en-US",
         orientation: "portrait-primary",
       },

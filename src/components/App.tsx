@@ -7,26 +7,27 @@ import {
 } from "react";
 import { CustomImage } from "../types/custom-image";
 import getImageUrl from "../utils/getImageUrl";
+import { saveAs } from "file-saver";
 
 import "../css/App.css";
 //@ts-ignore:next-line cuz pkg gae
 import swal from "sweetalert2/dist/sweetalert2.all.min.js";
 
-import pdf from "images-to-pdf-package"; /*--> yes my package */
+import pdf from "images-to-pdf-package";
 
 const App: FC = () => {
   const [uploadedImages, setUploadedImages] = useState<CustomImage[]>([]);
-  const [downloadUrl, setDownloadUrl] = useState<String>("not empty at all");
+  const [downloadUrl, setDownloadUrl] = useState("not empty at all");
   const [generated, setGenerated] = useState<Boolean>(false);
-
+  const [pdfName, setPdfName] = useState<String>("generated-with-itp");
   const handleImageUpload = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    (event) => {
-      const fileList = event.target.files;
+    (e) => {
+      const files = e.target.files;
 
-      const fileArray = fileList ? Array.from(fileList) : [];
-      const fileToImagePromises = fileArray.map(getImageUrl);
+      const fileArray = files ? Array.from(files) : [];
+      const finalFiles = fileArray.map(getImageUrl);
 
-      Promise.all(fileToImagePromises).then((newImages) =>
+      Promise.all(finalFiles).then((newImages) =>
         setUploadedImages((oldImages) => [...oldImages, ...newImages])
       );
     },
@@ -46,18 +47,21 @@ const App: FC = () => {
     if (!downloadUrl.includes("blob")) {
       return;
     }
+
     swal
       .fire({
         title: "Generated The PDF",
         icon: "success",
-
         html:
-          'You can click <b><a href="' +
+          '(just click outside to proceed)<br><br><b> <a class="inline-flex items-center justify-center h-12 px-6 font-semibold tracking-wide text-teal-900 transition duration-200 rounded shadow-md hover:text-deep-purple-900 bg-teal-accent-400 hover:bg-deep-purple-accent-100  focus:outline-none" href="' +
           downloadUrl +
-          '" download>here</a></b> to download it or <b><a href="' +
+          '" download="' +
+          pdfName +
+          '" target="_blank"">Download</a></b>  <b><a class="inline-flex items-center justify-center h-12 px-6 font-semibold tracking-wide text-teal-900 transition duration-200 rounded shadow-md hover:text-deep-purple-900 bg-teal-accent-400 hover:bg-deep-purple-accent-100  focus:outline-none" href="' +
           downloadUrl +
-          '" target="_blank">here</a></b> to preview it :)',
+          '" target="_blank">Preview</a></b>',
         confirmButtonText: "Alright",
+        showConfirmButton: false,
       })
       .then(() => {
         swal
@@ -89,26 +93,49 @@ const App: FC = () => {
           });
       });
     setGenerated(false);
-  }, [downloadUrl]);
+  }, [downloadUrl, pdfName]);
 
   const generatePdf = useCallback(() => {
-    setGenerated(true);
-    const blb: string = pdf(
-      // @ts-ignore:next-line
-
-      uploadedImages,
-      "bloburi",
-      false
-    );
-    setDownloadUrl(blb);
+    swal
+      .fire({
+        title: "What should be the file name?",
+        input: "text",
+        inputAttributes: {
+          autocapitalize: "off",
+        },
+        showCancelButton: true,
+        confirmButtonText: "Yeah That's Fine!",
+        showLoaderOnConfirm: true,
+        preConfirm: (res: any) => {
+          if (res.length == 0 || res.length > 20) {
+            swal.showValidationMessage(
+              "File Name must be between 1 and 20 characters long"
+            );
+          }
+        },
+      })
+      .then((result: any) => {
+        setPdfName(result.value);
+        setGenerated(true);
+        const blb: string = pdf(
+          // @ts-ignore:next-line
+          uploadedImages,
+          "bloburl",
+          false
+        );
+        setDownloadUrl(blb);
+      });
   }, [uploadedImages]);
 
   return (
     <div>
       {uploadedImages.length >= 1 ? (
-        <h1 className="text-3xl font-bold text-center text-white md:text-4xl">
-          Images Uploaded:
-        </h1>
+        <>
+          <br></br>
+          <h1 className="text-3xl font-bold text-center text-white md:text-4xl">
+            Images Uploaded:
+          </h1>
+        </>
       ) : (
         <></>
       )}
@@ -139,6 +166,7 @@ const App: FC = () => {
       </div>
       {uploadedImages.length == 0 ? (
         <>
+          <br></br>
           <h1 className="text-3xl font-bold text-center text-white md:text-4xl">
             No image selected
           </h1>{" "}
@@ -152,13 +180,13 @@ const App: FC = () => {
         <label htmlFor="file-input">
           {uploadedImages.length >= 1 ? (
             <div className="flex justify-center items-center">
-              <span className="px-6 py-2 mt-6 text-sm font-medium leading-5 text-center text-white capitalize bg-blue-600 rounded-lg hover:bg-blue-500 md:mx-0 md:w-auto focus:outline-none">
+              <span className="tracking-wide text-teal-900 transition duration-200  shadow-md hover:text-deep-purple-900 bg-teal-accent-400 hover:bg-deep-purple-accent-100 focus:shadow-outline focus:outline-none px-6 py-2 mt-6 text-sm font-medium leading-5 text-center  capitalize  rounded-lg  md:mx-0 md:w-auto ">
                 Upload More Images
               </span>
             </div>
           ) : (
             <div className="flex justify-center items-center">
-              <span className="px-6 py-2 mt-6 text-sm font-medium leading-5 text-center text-white capitalize bg-blue-600 rounded-lg hover:bg-blue-500 md:mx-0 md:w-auto focus:outline-none">
+              <span className="tracking-wide text-teal-900 transition duration-200  shadow-md hover:text-deep-purple-900 bg-teal-accent-400 hover:bg-deep-purple-accent-100 focus:shadow-outline focus:outline-none px-6 py-2 mt-6 text-sm font-medium leading-5 text-center  capitalize  rounded-lg  md:mx-0 md:w-auto ">
                 Upload Images
               </span>
             </div>
@@ -177,7 +205,7 @@ const App: FC = () => {
       {uploadedImages.length >= 1 && !generated ? (
         <div className="flex justify-center items-center">
           <button
-            className="text-center px-6 py-2 mt-6 text-sm font-medium leading-5  text-white capitalize bg-blue-600 rounded-lg hover:bg-blue-500 md:mx-0 md:w-auto focus:outline-none"
+            className="text-center px-6 hover:text-deep-purple-900 hover:bg-deep-purple-accent-100 py-2 mt-6 text-sm font-medium leading-5  text-white capitalize bg-blue-600 rounded-lg  md:mx-0 md:w-auto focus:outline-none"
             onClick={generatePdf}
           >
             Generate Pdf
@@ -195,6 +223,6 @@ const App: FC = () => {
  * Work on generating the pdf => ✔️
  * Work on downloading and previewing the pdf => ✔️
  * Work on the Visual Styles ( CSS ) => ✔️
- * Work on the PWA[android & ios version] => ❌
+ * Work on the PWA[android & ios version] => ✔️
  */
 export default App;
