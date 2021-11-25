@@ -23,7 +23,7 @@ const Toast2 = swal.mixin({
   position: "bottom-right",
   showConfirmButton: true,
   showCancelButton: false,
-  confirmButtonText: "Refresh",
+  confirmButtonText: "Alright",
   timer: 10000,
   timerProgressBar: true,
   didOpen: (toast: any) => {
@@ -37,7 +37,7 @@ const updateSW = registerSW({
   onNeedRefresh() {
     Toast.fire({
       icon: "info",
-      title: "New Version Available",
+      title: "New iTp Version Available",
     }).then((result: any) => {
       if (result.isConfirmed) {
         updateSW();
@@ -47,7 +47,7 @@ const updateSW = registerSW({
   onOfflineReady() {
     Toast2.fire({
       icon: "info",
-      title: "App is Ready To Work Offline",
+      title: "iTp is Ready To Work Offline",
     });
   },
 });
