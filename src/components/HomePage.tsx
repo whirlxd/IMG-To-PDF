@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "animate.css";
 let deferredPrompt: any;
 const HomePage = () => {
-  const [appInstallable, setAppInstallable] = useState<Boolean>(false);
+  const [appInstallable, setAppInstallable] = useState<Boolean>(true);
   useEffect(() => {
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
@@ -68,14 +68,16 @@ const HomePage = () => {
                 </span>
               </h2>
               <p className="text-base text-indigo-100 md:text-lg">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque rem aperiam, eaque ipsa quae.
+                iTp , short for img to pdf is an application made to facilitate
+                the creation of pdf's from images , wether it be for school ,
+                college or work! itp is completely free to use (no ads) and is
+                open source!
               </p>
             </div>
-            <div>
+            <div className="">
               <Link
                 to="/app"
-                className="inline-flex items-center justify-center h-12 px-6 font-semibold tracking-wide text-teal-900 transition duration-200 rounded shadow-md hover:text-deep-purple-900 bg-teal-accent-400 hover:bg-deep-purple-accent-100 focus:shadow-outline focus:outline-none"
+                className="inline-flex items-center justify-center h-12  mx-7 px-6 font-semibold tracking-wide text-teal-900 transition duration-200 rounded shadow-md hover:text-deep-purple-900 bg-teal-accent-400 hover:bg-deep-purple-accent-100 focus:shadow-outline focus:outline-none"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -93,11 +95,11 @@ const HomePage = () => {
                 </svg>{" "}
                 Use The Web Version
               </Link>
-              {"     "}
+
               {appInstallable && (
                 <button
                   onClick={handleInstallClick}
-                  className="inline-flex items-center justify-center h-12 px-6 font-semibold tracking-wide text-teal-900 transition duration-200 rounded shadow-md hover:text-deep-purple-900 bg-teal-accent-400 hover:bg-deep-purple-accent-100 focus:shadow-outline focus:outline-none"
+                  className="inline-flex items-center justify-center h-12 m-7 px-6 font-semibold tracking-wide text-teal-900 transition duration-200 rounded shadow-md hover:text-deep-purple-900 bg-teal-accent-400 hover:bg-deep-purple-accent-100 focus:shadow-outline focus:outline-none"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

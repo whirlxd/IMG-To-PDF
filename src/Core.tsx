@@ -13,7 +13,7 @@ export default function core() {
             path="/"
             element={
               <>
-                <GithubCorner />
+                <GithubCorner href="https://github.com/whirl21/img-to-pdf" />
                 <Home /> <Stats />
                 <Footer />
               </>
@@ -23,7 +23,7 @@ export default function core() {
             path="/app"
             element={
               <>
-                <GithubCorner />
+                <GithubCorner href="https://github.com/whirl21/img-to-pdf" />
                 <App />
               </>
             }
@@ -32,7 +32,7 @@ export default function core() {
             path="*"
             element={
               <>
-                <GithubCorner />
+                <GithubCorner href="https://github.com/whirl21/img-to-pdf" />
                 <Home /> <Stats />
                 <Footer />
               </>
