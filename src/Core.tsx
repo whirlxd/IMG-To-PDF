@@ -5,6 +5,12 @@ import GithubCorner from "react-github-corner";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 export default function core() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
   return (
     <>
       <Router>
@@ -23,8 +29,15 @@ export default function core() {
             path="/app"
             element={
               <>
-                <GithubCorner href="https://github.com/whirl21/img-to-pdf" />
-                <App />
+                {loading ? (
+                  <Loader />
+                ) : (
+                  <>
+                    {" "}
+                    <GithubCorner href="https://github.com/whirl21/img-to-pdf" />
+                    <App />
+                  </>
+                )}
               </>
             }
           />

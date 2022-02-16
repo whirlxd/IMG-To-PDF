@@ -4,6 +4,7 @@ import {
   useCallback,
   FC,
   useEffect,
+  useReducer,
 } from "react";
 import { CustomImage } from "../types/custom-image";
 import getImageUrl from "../utils/getImageUrl";
@@ -23,17 +24,32 @@ const App: FC = () => {
   const handleImageUpload = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => {
       const files = e.target.files;
+      //@ts-ignore:next-line
+      if (files?.length < 30) {
+        const fileArray = files ? Array.from(files) : [];
+        const finalFiles = fileArray.map(getImageUrl);
 
-      const fileArray = files ? Array.from(files) : [];
-      const finalFiles = fileArray.map(getImageUrl);
-
-      Promise.all(finalFiles).then((newImages) =>
-        setUploadedImages((oldImages) => [...oldImages, ...newImages])
-      );
+        Promise.all(finalFiles).then((newImages) =>
+          setUploadedImages((oldImages) => [...oldImages, ...newImages])
+        );
+      } else {
+        swal.fire({
+          icon: "info",
+          title: "Oops...",
+          text: "You can only make a pdf out of 30 images at a time!\n Next time select less than 30 images.",
+          showCancelButton: false,
+          confirmButtonText: "Aight!",
+        });
+      }
     },
     [setUploadedImages]
   );
 
+  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+
+  function handleClick() {
+    forceUpdate();
+  }
   const cleanUpUploadedImages = useCallback(() => {
     setUploadedImages([]);
     uploadedImages.forEach((image) => {
@@ -43,6 +59,7 @@ const App: FC = () => {
       setDownloadUrl("");
     }, 700);
   }, [setUploadedImages, uploadedImages, setDownloadUrl]);
+
   useEffect(() => {
     if (!downloadUrl.includes("blob")) {
       return;
@@ -96,6 +113,20 @@ const App: FC = () => {
   }, [downloadUrl, pdfName]);
 
   const generatePdf = useCallback(() => {
+    if (uploadedImages.length > 30) {
+      let extraImages = uploadedImages.length - 30;
+      return swal.fire({
+        icon: "info",
+        title: "Oops...",
+        text:
+          "You can only make a pdf out of 30 images at a time!\nPlease remove " +
+          extraImages +
+          " image(s) to proceed.",
+        showCancelButton: false,
+        confirmButtonText: "Aight!",
+      });
+    }
+
     swal
       .fire({
         title: "What should be the file name?",
@@ -115,23 +146,36 @@ const App: FC = () => {
         },
       })
       .then((result: any) => {
-        setPdfName(result.value);
-        setGenerated(true);
-        const blb: string = pdf(
-          // @ts-ignore:next-line
-          uploadedImages,
-          "bloburl",
-          false
-        );
-        setDownloadUrl(blb);
+        if (result.value !== undefined) {
+          setPdfName(result.value);
+          setGenerated(true);
+          const blb: string = pdf(
+            // @ts-ignore:next-line
+            uploadedImages,
+            "bloburl",
+            false
+          );
+          setDownloadUrl(blb);
+        }
       });
   }, [uploadedImages]);
+  const removeImages = useCallback(
+    (img: any) => {
+      const localCopyOfUI = uploadedImages;
+      const index = localCopyOfUI.indexOf(img);
+      if (index > -1) {
+        return localCopyOfUI.splice(index, 1);
+      }
+      setUploadedImages(localCopyOfUI);
+      return forceUpdate();
+    },
+    [uploadedImages, setUploadedImages]
+  );
 
   return (
-    <div>
+    <div className="">
       {uploadedImages.length >= 1 ? (
         <>
-          <br></br>
           <h1 className="text-3xl font-bold text-center text-white md:text-4xl">
             Images Uploaded:
           </h1>
@@ -140,34 +184,40 @@ const App: FC = () => {
         <></>
       )}
 
-      <div className="flex justify-center items-center ">
-        {uploadedImages.length >= 1 ? (
-          uploadedImages.map((image) => (
-            <section className="container content-center  mx-auto bg-2a2e38 dark:bg-gray-800">
-              <div className="flex items-center content-center justify-center">
-                <div className="grid place-items-center  grid-flow-col grid-cols-auto mt-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  <div className="w-full content-start max-w-xs text-center">
+      <div className="">
+        <section className="container content-center  mx-auto bg-2a2e38 dark:bg-gray-800">
+          <div className="flex justify-evenly items-right ">
+            <div className="grid grid-flow-cols grid-cols-0 grid-rows-auto   mt-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {uploadedImages.length >= 1 ? (
+                uploadedImages.map((image) => (
+                  <div className="w-full content-start  items-center text-center image">
                     <img
-                      className="object-cover object-center  mx-auto rounded-lg"
+                      className="object-cover object-center  hover:opacity-75 rounded-lg  m-2 mx-2"
                       src={image.src}
                       key={image.src.toUpperCase()}
                       alt={"image"}
-                      width={200}
-                      height={200}
+                      width={170}
+                      height={170}
                     />
+
+                    <button
+                      className="font-black text-2xl tracking-wide text-teal-900 transition duration-200  shadow-md hover:text-deep-purple-900 bg-red-accent-200 hover:bg-deep-purple-accent-200 focus:shadow-outline focus:outline-none px-6 py-2 mt-6  leading-5 text-center  capitalize  rounded-lg  md:mx-0 md:w-auto"
+                      onClick={() => removeImages(image)}
+                    >
+                      🗑️
+                    </button>
                   </div>
-                </div>
-              </div>
-            </section>
-          ))
-        ) : (
-          <></>
-        )}
+                ))
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+        </section>
       </div>
       {uploadedImages.length == 0 ? (
         <>
-          <br></br>
-          <h1 className="text-3xl font-bold text-center text-white md:text-4xl">
+          <h1 className="text-3xl font-bold text-center text-white md:text-4xl ">
             No image selected
           </h1>{" "}
           <br></br>
@@ -176,7 +226,8 @@ const App: FC = () => {
       ) : (
         <></>
       )}
-      <div>
+
+      <div className="flex justify-center items-center ">
         <label htmlFor="file-input">
           {uploadedImages.length >= 1 ? (
             <div className="flex justify-center items-center">
@@ -191,6 +242,7 @@ const App: FC = () => {
               </span>
             </div>
           )}
+
           <input
             style={{ opacity: 0 }}
             id="file-input"

@@ -64,14 +64,14 @@ const HomePage = () => {
                       </pattern>
                     </defs>
                   </svg>
-                  <h1 className="text-center">IMG to PDF</h1>
+                  <h1 className="text-center">IMG To PDF</h1>
                 </span>
               </h2>
               <p className="text-base text-indigo-100 md:text-lg">
-                iTp , short for img to pdf is an application made to facilitate
-                the creation of pdf's from images , wether it be for school ,
-                college or work! itp is completely free to use (no ads) and is
-                open source!
+                iTp, short for IMG to PDF is an application made to facilitate
+                the creation of pdf's from images, whether it be for school,
+                college or work! It is completely free to use , has no ads and
+                is open source!
               </p>
             </div>
             <div className="">

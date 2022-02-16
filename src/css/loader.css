@@ -3,7 +3,7 @@
   height: 50px;
   border-radius: 50%;
   border: 8px solid;
-  border-color: #2a2e38 rgb(255, 255, 255);
+  border-color: rgba(98, 0, 234, var(--tw-bg-opacity)) rgb(255, 255, 255);
   animation: s1 1s infinite;
 }
 @keyframes s1 {
