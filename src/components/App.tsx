@@ -5,6 +5,7 @@ import {
   FC,
   useEffect,
   useReducer,
+  useRef,
 } from "react";
 import { CustomImage } from "../types/custom-image";
 import getImageUrl from "../utils/getImageUrl";
@@ -15,6 +16,7 @@ import "../css/App.css";
 import swal from "sweetalert2/dist/sweetalert2.all.min.js";
 
 import pdf from "images-to-pdf-package";
+import document from "postcss/lib/document";
 
 const App: FC = () => {
   const [uploadedImages, setUploadedImages] = useState<CustomImage[]>([]);
@@ -193,6 +195,7 @@ const App: FC = () => {
                   <div className="w-full content-start  items-center text-center image">
                     <img
                       className="object-cover object-center  hover:opacity-75 rounded-lg  m-2 mx-2"
+                      id="image"
                       src={image.src}
                       key={image.src.toUpperCase()}
                       alt={"image"}
@@ -201,10 +204,16 @@ const App: FC = () => {
                     />
 
                     <button
-                      className="font-black text-2xl tracking-wide text-teal-900 transition duration-200  shadow-md hover:text-deep-purple-900 bg-red-accent-200 hover:bg-deep-purple-accent-200 focus:shadow-outline focus:outline-none px-6 py-2 mt-6  leading-5 text-center  capitalize  rounded-lg  md:mx-0 md:w-auto"
+                      className="font-black text-2xl tracking-wide mx-1 text-teal-900 transition duration-200  shadow-md hover:text-deep-purple-900 bg-red-accent-200 hover:bg-deep-purple-accent-200 focus:shadow-outline focus:outline-none px-6 py-2 mt-6  leading-5 text-center  capitalize  rounded-lg   md:w-auto"
                       onClick={() => removeImages(image)}
                     >
                       🗑️
+                    </button>
+                    <button
+                      className="font-black text-2xl tracking-wide mx-1  text-teal-900 transition duration-200  shadow-md hover:text-deep-purple-900 bg-red-accent-200 hover:bg-deep-purple-accent-200 focus:shadow-outline focus:outline-none px-6 py-2 mt-6  leading-5 text-center  capitalize  rounded-lg   md:w-auto"
+                      onClick={() => window.open(image.src)}
+                    >
+                      🔗
                     </button>
                   </div>
                 ))
@@ -275,6 +284,8 @@ const App: FC = () => {
  * Work on generating the pdf => ✔️
  * Work on downloading and previewing the pdf => ✔️
  * Work on the Visual Styles ( CSS ) => ✔️
+ * Work on Option to delete images => ✔️
+ * Work on Option to limit images to 30 => ✔️
  * Work on the PWA[android & ios version] => ✔️
  */
 export default App;
