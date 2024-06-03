@@ -20,7 +20,7 @@
 
 > An application to convert images to pdf, made using react and typescript , styled with tailwindcss.
 
-### 🌐 [Main Site](https://itp.whirl.codes)
+### 🌐 [Main Site](https://itp.whirlxd.xyz)
 
 ## Install
 
@@ -38,9 +38,10 @@ npm run dev
 
 👤 **Whirl**
 
-- Website: whirl.codes
-- Twitter: [@Whirl_21](https://twitter.com/Whirl_21)
-- Github: [@Whirl21](https://github.com/Whirl21)
+- Website: whirlxd.xyz
+- Twitter: [@Whirlxd](https://twitter.com/Whirlxd)
+- Github: [@Whirlxd](https://github.com/Whirlxd)
+- Instagram: [@whirlxd](instagram.com/whirlxd)
 
 ## 🤝 Contributing
 
@@ -52,5 +53,5 @@ Give a ⭐️ if this project helped you!
 
 ## 📝 License
 
-Copyright © 2021 [Whirl](https://github.com/Whirl21).<br />
+Copyright © 2021 [Whirl](https://github.com/Whirlxd).<br />
 This project is [GNU GPL 3.0](https://choosealicense.com/licenses/gpl-3.0/) licensed.
